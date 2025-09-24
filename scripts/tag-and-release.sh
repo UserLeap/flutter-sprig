@@ -33,7 +33,7 @@ release() {
         -H "Accept: application/vnd.github.v3+json" \
         -H "Authorization: token $GH_TOKEN" \
         -d "$(generate_release_payload)" \
-        https://api.github.com/repos/UserLeap/sdk/releases
+        https://api.github.com/repos/UserLeap/flutter-sprig/releases
 }
 
 main() {
