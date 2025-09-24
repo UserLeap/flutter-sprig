@@ -1,5 +1,6 @@
 name: Main Flutter Release
 on:
+  workflow_dispatch:
   push:
     branches:
       - "main"
