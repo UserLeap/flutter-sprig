@@ -1,0 +1,22 @@
+name: Main Flutter Release
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  make-release:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Get Version
+        id: get-version
+        run: echo "version=$(grep -o "[0-9]\+\.[0-9]\+\.[0-9]\+" ../ios/sprig_flutter_plugin.podspec)" >> $GITHUB_OUTPUT
+
+      - name: Create Tag
+        run: bash ../scripts/tag-and-release.sh tag ${{ secrets.GH_TOKEN }} ${{ steps.get-version.outputs.version }}
+
+      - name: Create release
+        run: bash ../scripts/tag-and-release.sh release ${{ secrets.GH_TOKEN }} ${{ steps.get-version.outputs.version }}

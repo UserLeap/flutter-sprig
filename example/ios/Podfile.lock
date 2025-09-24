@@ -1,0 +1,35 @@
+PODS:
+  - Flutter (1.0.0)
+  - integration_test (0.0.1):
+    - Flutter
+  - sprig_flutter_plugin (0.0.1):
+    - Flutter
+    - UserLeapKit (~> 4.24.7)
+  - UserLeapKit (4.24.7)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - sprig_flutter_plugin (from `.symlinks/plugins/sprig_flutter_plugin/ios`)
+
+SPEC REPOS:
+  trunk:
+    - UserLeapKit
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+  sprig_flutter_plugin:
+    :path: ".symlinks/plugins/sprig_flutter_plugin/ios"
+
+SPEC CHECKSUMS:
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
+  sprig_flutter_plugin: 9d150fa57b0a5d31e087f4eae0e2daead7d21d54
+  UserLeapKit: a7ff968a7d54dad3ef7f2363ef22a509f57797b4
+
+PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
+
+COCOAPODS: 1.16.2
