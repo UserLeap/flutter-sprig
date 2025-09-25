@@ -19,5 +19,5 @@ jobs:
       - name: Create Tag
         run: bash ./scripts/tag-and-release.sh tag ${{ secrets.GITHUB_TOKEN }} ${{ steps.get-version.outputs.version }}
 
-      - name: Create release
+      - name: Create Release
         run: bash ./scripts/tag-and-release.sh release ${{ secrets.GITHUB_TOKEN }} ${{ steps.get-version.outputs.version }}
