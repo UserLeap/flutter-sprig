@@ -14,11 +14,8 @@ jobs:
 
       - name: Get Version
         id: get-version
-        #run: echo "version=$(grep -o -m 1  "[0-9]\+\.[0-9]\+\.[0-9]\+" pubspec.yaml)" >> $GITHUB_OUTPUT
-        run: |
-            VERSION=$(grep -o "grep -o -m 1  "[0-9]\+\.[0-9]\+\.[0-9]\+" pubspec.yaml)
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "Found version: $VERSION"
+        run: echo "version=$(grep -o -m 1  "[0-9]\+\.[0-9]\+\.[0-9]\+" pubspec.yaml)" >> $GITHUB_OUTPUT
 
-      #- name: Create Tag
-      #  run: bash ./scripts/tag-and-release.sh tag ${{ secrets.GITHUB_TOKEN }} ${{ steps.get-version.outputs.version }}
+
+      - name: Create Tag
+        run: bash ./scripts/tag-and-release.sh tag ${{ secrets.GITHUB_TOKEN }} ${{ steps.get-version.outputs.version }}
