@@ -1,0 +1,23 @@
+name: Main Flutter Release
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+jobs:
+  make-release:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get Version
+        id: get-version
+        run: echo "version=$(grep -o -m 1  "[0-9]\+\.[0-9]\+\.[0-9]\+" pubspec.yaml)" >> $GITHUB_OUTPUT
+
+      - name: Create Tag
+        run: bash ./scripts/tag-and-release.sh tag ${{ secrets.GITHUB_TOKEN }} ${{ steps.get-version.outputs.version }}
+
+      - name: Create Release
+        run: bash ./scripts/tag-and-release.sh release ${{ secrets.GITHUB_TOKEN }} ${{ steps.get-version.outputs.version }}
