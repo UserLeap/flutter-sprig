@@ -13,6 +13,7 @@ Follow the steps below in order to run the example app.
 In a CLI that has a path to your installed Flutter SDK, navigate to the root of this repository and then type the following commands:
 
     flutter pub get 
+    cd example
     cd ios
     pod repo update
     pod install
