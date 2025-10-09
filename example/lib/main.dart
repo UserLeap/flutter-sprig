@@ -25,18 +25,35 @@ class _MyAppState extends State<MyApp> {
   final _sprigFlutterPlugin = SprigFlutterPlugin();
 
   // Set these values for testing features in the example app
-  final String _defaultEnvironment = "<your_environment_id>"; // Change to your Environment ID
-  final String _defaultEventName = "<your_event_name>"; // Change to your event name
+  final String _defaultEnvironment =
+      "<your_environment_id>"; // Change to your Environment ID
+  final String _defaultEventName =
+      "<your_event_name>"; // Change to your event name
   final int _defaultSurveyId = 0; // Change to your survey ID
-  final String _defaultPreviewKey = "<your_preview_key>"; //  Change to your preview key
-  final String _defaultEmailAddress = "<your_email_address>"; // Change to your email address
-  final String _defaultVisitorAttributeKey = "<your_visitor_attribute_key>"; // Change to your visitor attribute key
-  final String _defaultVisitorAttributeValue = "<your_visitor_attribute_value>"; // Change to your visitor attribute value
-  final Map<String, String> _defaultVisitorAttributes = {"<your_visitor_attribute_key1>": "<your_visitor_attribute_value1>", "<your_visitor_attribute_key2>": "<your_visitor_attribute_value2>"}; // Change to your visitor attributes map
+  final String _defaultPreviewKey =
+      "<your_preview_key>"; //  Change to your preview key
+  final String _defaultEmailAddress =
+      "<your_email_address>"; // Change to your email address
+  final String _defaultVisitorAttributeKey =
+      "<your_visitor_attribute_key>"; // Change to your visitor attribute key
+  final String _defaultVisitorAttributeValue =
+      "<your_visitor_attribute_value>"; // Change to your visitor attribute value
+  final Map<String, String> _defaultVisitorAttributes = {
+    "<your_visitor_attribute_key1>": "<your_visitor_attribute_value1>",
+    "<your_visitor_attribute_key2>": "<your_visitor_attribute_value2>",
+  }; // Change to your visitor attributes map
   final String _defaultUserId = "<your_user_id>"; // Change to your user ID
-  final String _defaultPartnerAnonymousId = "<your_partner_anonymous_id>"; // Change to your partner anonymous ID
-  final List<String> _defaultAttributesToRemove = ["<your_visitor_attribute_key1>", "<your_visitor_attribute_key2>"]; // Change to your visitor attributes to remove
-  final Map<String, dynamic> _defaultProperties = {"<property_key1>": "<property_value1>", "<property_key2>": 2, "<property_key3>": true}; // Change to your properties map
+  final String _defaultPartnerAnonymousId =
+      "<your_partner_anonymous_id>"; // Change to your partner anonymous ID
+  final List<String> _defaultAttributesToRemove = [
+    "<your_visitor_attribute_key1>",
+    "<your_visitor_attribute_key2>",
+  ]; // Change to your visitor attributes to remove
+  final Map<String, dynamic> _defaultProperties = {
+    "<property_key1>": "<property_value1>",
+    "<property_key2>": 2,
+    "<property_key3>": true,
+  }; // Change to your properties map
 
   @override
   void initState() {
@@ -52,13 +69,16 @@ class _MyAppState extends State<MyApp> {
 
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
-    
+
     try {
-      _sprigFlutterPlugin.configure(environment: _defaultEnvironment, configuration: null);
+      _sprigFlutterPlugin.configure(
+        environment: _defaultEnvironment,
+        configuration: null,
+      );
       registerForSprigEvents();
-      platformVersion = await _sprigFlutterPlugin.getPlatformVersion() ?? _unknownText;
+      platformVersion =
+          await _sprigFlutterPlugin.getPlatformVersion() ?? _unknownText;
       sdkVersion = await _sprigFlutterPlugin.sdkVersion() ?? _unknownText;
-      
     } on PlatformException catch (e) {
       platformExceptionMsg = e.message;
     }
@@ -74,30 +94,33 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void registerForSprigEvents() async {
+  void registerForSprigEvents() {
+    // Example: Register for all events
+    // In production, only register for the events you need
     for (var event in SprigLifecycleEvent.values) {
       if (event == SprigLifecycleEvent.none) {
         continue; // Skip the 'none' event
       }
-      _sprigFlutterPlugin.registerEventListener(event, (Map<Object?, Object?> eventData) async {
+      _sprigFlutterPlugin.registerEventListener(event, (eventData) {
         processSprigEvent(eventData);
       });
     }
   }
 
   void processSprigEvent(Map<Object?, Object?> eventData) async {
-    debugPrint("Event data: ${eventData.toString()}");
     if (eventData["type"] case var eventTypeString?) {
-      SprigLifecycleEvent eventType = SprigLifecycleEvent.values.firstWhere (
-        (e) => e.value == eventTypeString, orElse: () => SprigLifecycleEvent.none
+      SprigLifecycleEvent eventType = SprigLifecycleEvent.values.firstWhere(
+        (e) => e.value == eventTypeString,
+        orElse: () => SprigLifecycleEvent.none,
       );
       switch (eventType) {
         case SprigLifecycleEvent.sdkReady:
           debugPrint("SDK is ready");
         case SprigLifecycleEvent.visitorIdUpdated:
-            setState(() {
-              _visitorIdentifierString = eventData["visitorId"]?.toString() ?? _unknownText;
-            });
+          setState(() {
+            _visitorIdentifierString =
+                eventData["visitorId"]?.toString() ?? _unknownText;
+          });
           debugPrint("Visitor ID updated to $_visitorIdentifierString");
         case SprigLifecycleEvent.surveyHeight:
           debugPrint("Survey height updated");
@@ -143,55 +166,61 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
+        appBar: AppBar(title: const Text('Plugin example app')),
         body: Container(
           margin: const EdgeInsets.only(left: 16.0),
-            child: ListView(
+          child: ListView(
             padding: const EdgeInsets.all(8),
             children: <Widget>[
               Text('OS version: $_platformVersion'),
               Text('Sprig SDK version: $_sdkVersion'),
               Text('Visitor Identifier String: $_visitorIdentifierString\n'),
-              if (_message != null)
-                  Text('$_message'),
-              
+              if (_message != null) Text('$_message'),
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.presentSurvey(surveyId: _defaultSurveyId);
+                    _sprigFlutterPlugin.presentSurvey(
+                      surveyId: _defaultSurveyId,
+                    );
                   },
                   child: const Text('Launch Survey'),
                 ),
               ),
-              
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.setPreviewKey(previewKey: _defaultPreviewKey);
+                    _sprigFlutterPlugin.setPreviewKey(
+                      previewKey: _defaultPreviewKey,
+                    );
                   },
                   child: const Text('Set Preview Key'),
                 ),
               ),
-              
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.setEmailAddress(emailAddress: _defaultEmailAddress);
+                    _sprigFlutterPlugin.setEmailAddress(
+                      emailAddress: _defaultEmailAddress,
+                    );
                   },
                   child: const Text('Set Email Address'),
                 ),
               ),
-              
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.setVisitorAttribute(key: _defaultVisitorAttributeKey, value: _defaultVisitorAttributeValue);
+                    _sprigFlutterPlugin.setVisitorAttribute(
+                      key: _defaultVisitorAttributeKey,
+                      value: _defaultVisitorAttributeValue,
+                    );
                   },
                   child: const Text('Set Visitor Attribute'),
                 ),
@@ -201,7 +230,11 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.setVisitorAttributesAndIdentify(attributes: _defaultVisitorAttributes, userId: _defaultUserId, partnerAnonymousId: _defaultPartnerAnonymousId);
+                    _sprigFlutterPlugin.setVisitorAttributesAndIdentify(
+                      attributes: _defaultVisitorAttributes,
+                      userId: _defaultUserId,
+                      partnerAnonymousId: _defaultPartnerAnonymousId,
+                    );
                   },
                   child: const Text('Set Visitor Attributes and Identify'),
                 ),
@@ -211,7 +244,9 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.removeVisitorAttributes(attributes:   _defaultAttributesToRemove);
+                    _sprigFlutterPlugin.removeVisitorAttributes(
+                      attributes: _defaultAttributesToRemove,
+                    );
                   },
                   child: const Text('Remove Visitor Attributes'),
                 ),
@@ -221,7 +256,9 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.setUserIdentifier(identifier: _defaultUserId);
+                    _sprigFlutterPlugin.setUserIdentifier(
+                      identifier: _defaultUserId,
+                    );
                   },
                   child: const Text('Set User Identifier'),
                 ),
@@ -231,7 +268,7 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.logout();
+                    _sprigFlutterPlugin.logout();
                   },
                   child: const Text('Logout'),
                 ),
@@ -241,7 +278,9 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.trackAndPresent(eventName: _defaultEventName);
+                    _sprigFlutterPlugin.trackAndPresent(
+                      eventName: _defaultEventName,
+                    );
                   },
                   child: const Text('Track and Present'),
                 ),
@@ -251,7 +290,11 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.trackIdentifyAndPresent(eventName:  _defaultEventName, userId: _defaultUserId, partnerAnonymousId: _defaultPartnerAnonymousId);
+                    _sprigFlutterPlugin.trackIdentifyAndPresent(
+                      eventName: _defaultEventName,
+                      userId: _defaultUserId,
+                      partnerAnonymousId: _defaultPartnerAnonymousId,
+                    );
                   },
                   child: const Text('Track Identify and Present'),
                 ),
@@ -261,12 +304,18 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.track(eventName:  _defaultEventName, onCompletion: (surveyState) {
-                    setState(() {
-                    _message = "Track completed with survey state: $surveyState";  
-                    });
-                    debugPrint("Track completed with survey state: $surveyState");
-                  });
+                    _sprigFlutterPlugin.track(
+                      eventName: _defaultEventName,
+                      onCompletion: (surveyState) {
+                        setState(() {
+                          _message =
+                              "Track completed with survey state: $surveyState";
+                        });
+                        debugPrint(
+                          "Track completed with survey state: $surveyState",
+                        );
+                      },
+                    );
                   },
                   child: const Text('Track with callback'),
                 ),
@@ -276,12 +325,21 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.trackWithProperties(eventName:  _defaultEventName, userId: _defaultUserId, partnerAnonymousId: _defaultPartnerAnonymousId, properties: _defaultProperties, onCompletion: (surveyState) {
-                    setState(() {
-                    _message = "TrackWithProperties completed with survey state: $surveyState";  
-                    });
-                    debugPrint("TrackWithProperties completed with survey state: $surveyState");
-                  });
+                    _sprigFlutterPlugin.trackWithProperties(
+                      eventName: _defaultEventName,
+                      userId: _defaultUserId,
+                      partnerAnonymousId: _defaultPartnerAnonymousId,
+                      properties: _defaultProperties,
+                      onCompletion: (surveyState) {
+                        setState(() {
+                          _message =
+                              "TrackWithProperties completed with survey state: $surveyState";
+                        });
+                        debugPrint(
+                          "TrackWithProperties completed with survey state: $surveyState",
+                        );
+                      },
+                    );
                   },
                   child: const Text('TrackWithProperties with callback'),
                 ),
@@ -291,20 +349,27 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                  _sprigFlutterPlugin.trackAndIdentify(eventName:  _defaultEventName, userId: _defaultUserId, partnerAnonymousId: _defaultPartnerAnonymousId, onCompletion: (surveyState) {
-                    setState(() {
-                    _message = "TrackAndIdentify completed with survey state: $surveyState";  
-                    });
-                    debugPrint("TrackAndIdentify completed with survey state: $surveyState");
-                  });
+                    _sprigFlutterPlugin.trackAndIdentify(
+                      eventName: _defaultEventName,
+                      userId: _defaultUserId,
+                      partnerAnonymousId: _defaultPartnerAnonymousId,
+                      onCompletion: (surveyState) {
+                        setState(() {
+                          _message =
+                              "TrackAndIdentify completed with survey state: $surveyState";
+                        });
+                        debugPrint(
+                          "TrackAndIdentify completed with survey state: $surveyState",
+                        );
+                      },
+                    );
                   },
                   child: const Text('TrackAndIdentify with callback'),
                 ),
               ),
-
             ],
-            ),
-        )
+          ),
+        ),
       ),
     );
   }
