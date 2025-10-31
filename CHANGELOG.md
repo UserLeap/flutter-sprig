@@ -4,6 +4,9 @@
 <!-- fix: A bug fix -->
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 
+### 0.1.2
+- add: Android support.
+
 ### 0.1.1
 - fix: Fix for issue with registered lifecycle events. 
 
