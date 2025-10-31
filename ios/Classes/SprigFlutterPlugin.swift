@@ -34,7 +34,6 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         case "sdkVersion":
             result(Sprig.shared.sdkVersion)
         case "visitorIdentifierString":
-            print("visitorIdentifierString \(Sprig.shared.visitorIdentifierString ?? "(none)")")
             result(Sprig.shared.visitorIdentifierString)
         case "configure":
             guard let argDict, let env = argDict["environment"] as? String else {
