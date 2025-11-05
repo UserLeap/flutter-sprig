@@ -4,6 +4,10 @@
 <!-- fix: A bug fix -->
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 
+### 0.1.3
+- chore: Update iOS SDK to v4.25.1.
+- fix: Fix for trackWithProperties call failing to show survey. 
+
 ### 0.1.2
 - add: Android support.
 
