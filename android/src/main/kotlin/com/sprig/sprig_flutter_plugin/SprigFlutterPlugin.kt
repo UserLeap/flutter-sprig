@@ -391,13 +391,9 @@ class SprigFlutterPlugin :
         val partnerAnonymousId = call.argument<String?>("partnerAnonymousId")
         val properties = call.argument<Map<String, Any>>("properties")
         eventName?.let { eventName -> 
-            userId?.let { userId -> 
-                partnerAnonymousId?.let { partnerAnonymousId -> 
-                    properties?.let { properties -> 
-                        val payload = EventPayload(eventName, userId, partnerAnonymousId, properties)
-                        Sprig.track(payload)
-                    }
-                }
+            properties?.let { properties -> 
+                val payload = EventPayload(eventName, userId, partnerAnonymousId, properties)
+                Sprig.track(payload)
             }
         }
         result.success(0)
