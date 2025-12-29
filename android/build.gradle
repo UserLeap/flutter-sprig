@@ -82,7 +82,7 @@ dependencies {
         implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
         implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4"
     } else {
-        implementation "com.userleap:userleap-android-sdk:2.19.0"
+        implementation "com.userleap:userleap-android-sdk:2.19.5"
     }
     
     // Test dependencies
