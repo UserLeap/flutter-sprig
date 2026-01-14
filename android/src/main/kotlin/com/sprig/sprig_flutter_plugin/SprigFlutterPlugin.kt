@@ -60,7 +60,8 @@ class SprigFlutterPlugin :
         "trackIdentifyAndPresent" to ::handleTrackIdentifyAndPresent,
         "track" to ::handleTrack,
         "trackWithProperties" to ::handleTrackWithProperties,
-        "trackAndIdentify" to ::handleTrackAndIdentify
+        "trackAndIdentify" to ::handleTrackAndIdentify,
+        "dismissActiveSurvey" to ::handleDismissActiveSurvey
     )
 
     /**
@@ -411,6 +412,11 @@ class SprigFlutterPlugin :
                 }
             }
         }
+        result.success(0)
+    }
+
+    private fun handleDismissActiveSurvey(call: MethodCall, result: Result) {
+        Sprig.dismissActiveSurvey()
         result.success(0)
     }
 

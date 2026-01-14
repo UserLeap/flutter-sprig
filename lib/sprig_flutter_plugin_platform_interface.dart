@@ -143,4 +143,8 @@ abstract class SprigFlutterPluginPlatform extends PlatformInterface {
   Future<void> present() {
     throw UnimplementedError('present() has not been implemented.');
   }
+
+  Future<void> dismissActiveSurvey() async {
+    throw UnimplementedError('dismissActiveSurvey() has not been implemented.');
+  }
 }

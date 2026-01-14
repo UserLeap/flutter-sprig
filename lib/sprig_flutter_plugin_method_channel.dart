@@ -261,4 +261,9 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
       debugPrint("Failed to invoke iOS method: '${e.message}'.");
     }
   }
+
+  @override
+  Future<void> dismissActiveSurvey() async {
+    await methodChannel.invokeMethod<void>('dismissActiveSurvey');
+  }
 }
