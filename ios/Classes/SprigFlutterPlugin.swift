@@ -196,6 +196,9 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
                 result(surveyState.rawValue)
             }
             Sprig.shared.track(payload: payload)
+        case "dismissActiveSurvey":
+            Sprig.shared.dismissActiveSurvey()
+            result(nil)
         default:
             result(FlutterMethodNotImplemented)
         }
