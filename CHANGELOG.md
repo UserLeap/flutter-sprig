@@ -4,6 +4,9 @@
 <!-- fix: A bug fix -->
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 
+### 0.2.1
+- fix: Aligned iOS version to 16.0 for the example app and .podspec.
+
 ### 0.2.0
 - add: Added ability to programmatically dismiss the active survey.
 
