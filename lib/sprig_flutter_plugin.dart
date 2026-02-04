@@ -155,4 +155,12 @@ class SprigFlutterPlugin {
   Future<void> dismissActiveSurvey() {
     return SprigFlutterPluginPlatform.instance.dismissActiveSurvey();
   }
+
+  Future<void> pauseDisplayingSurveys() {
+    return SprigFlutterPluginPlatform.instance.pauseDisplayingSurveys();
+  }
+
+  Future<void> unpauseDisplayingSurveys() {
+    return SprigFlutterPluginPlatform.instance.unpauseDisplayingSurveys();
+  }
 }
