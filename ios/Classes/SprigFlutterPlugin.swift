@@ -199,6 +199,12 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         case "dismissActiveSurvey":
             Sprig.shared.dismissActiveSurvey()
             result(nil)
+        case "pauseDisplayingSurveys":
+            Sprig.shared.pauseDisplayingSurveys()
+            result(nil)
+        case "unpauseDisplayingSurveys":
+            Sprig.shared.unpauseDisplayingSurveys()
+            result(nil)
         default:
             result(FlutterMethodNotImplemented)
         }

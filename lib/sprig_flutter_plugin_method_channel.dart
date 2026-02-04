@@ -266,4 +266,14 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
   Future<void> dismissActiveSurvey() async {
     await methodChannel.invokeMethod<void>('dismissActiveSurvey');
   }
+
+  @override
+  Future<void> pauseDisplayingSurveys() async {
+    await methodChannel.invokeMethod<void>('pauseDisplayingSurveys');
+  }
+
+  @override
+  Future<void> unpauseDisplayingSurveys() async {
+    await methodChannel.invokeMethod<void>('unpauseDisplayingSurveys');
+  }
 }

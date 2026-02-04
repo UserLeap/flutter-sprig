@@ -13,6 +13,7 @@ import com.userleap.Sprig
 import com.userleap.EventPayload
 import com.userleap.EventListener
 import com.userleap.EventName
+import com.userleap.SurveyState
 
 import android.app.Activity
 import android.util.Log
@@ -61,7 +62,9 @@ class SprigFlutterPlugin :
         "track" to ::handleTrack,
         "trackWithProperties" to ::handleTrackWithProperties,
         "trackAndIdentify" to ::handleTrackAndIdentify,
-        "dismissActiveSurvey" to ::handleDismissActiveSurvey
+        "dismissActiveSurvey" to ::handleDismissActiveSurvey,
+        "pauseDisplayingSurveys" to ::handlePauseDisplayingSurveys,
+        "unpauseDisplayingSurveys" to ::handleUnpauseDisplayingSurveys
     )
 
     /**
@@ -381,9 +384,11 @@ class SprigFlutterPlugin :
 
     private fun handleTrack(call: MethodCall, result: Result) {
         call.argument<String>("eventName")?.let {
-            Sprig.track(it)
+            val callback = { surveyState: SurveyState ->
+                result.success(surveyState.ordinal)
+            }
+            Sprig.track(EventPayload(event = it, callback = callback))
         }
-        result.success(0)
     }
 
     private fun handleTrackWithProperties(call: MethodCall, result: Result) {
@@ -417,6 +422,16 @@ class SprigFlutterPlugin :
 
     private fun handleDismissActiveSurvey(call: MethodCall, result: Result) {
         Sprig.dismissActiveSurvey()
+        result.success(0)
+    }
+
+    private fun handlePauseDisplayingSurveys(call: MethodCall, result: Result) {
+        Sprig.pauseDisplayingSurveys()
+        result.success(0)
+    }
+
+    private fun handleUnpauseDisplayingSurveys(call: MethodCall, result: Result) {
+        Sprig.unpauseDisplayingSurveys()
         result.success(0)
     }
 
