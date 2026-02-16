@@ -1,6 +1,6 @@
 name: sprig_flutter_plugin
-description: "A new Flutter plugin project."
-version: 0.3.2
+description: "Sprig Flutter plugin."
+version: 0.3.3
 homepage:
 
 environment:

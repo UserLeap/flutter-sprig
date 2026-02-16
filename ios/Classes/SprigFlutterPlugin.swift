@@ -241,8 +241,29 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     }
     
     private func getRootViewController() -> UIViewController? {
-        guard let viewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController) else {
-            print("Could not get root view controller")
+        // Try multiple methods to get the root view controller
+        var viewController: UIViewController?
+        
+        // Method 1: Try scene-based approach (iOS 13+)
+        if #available(iOS 13.0, *) {
+            viewController = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?
+            .rootViewController
+        }
+        
+        // Method 2: Fallback to traditional approach
+        if viewController == nil {
+            viewController = UIApplication.shared.delegate?.window??.rootViewController
+        }
+        
+        // Method 3: Last resort - try all windows
+        if viewController == nil {
+            viewController = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
+        }
+        
+        guard let viewController = viewController else {            
             return nil
         }
         return viewController

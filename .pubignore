@@ -1,0 +1,17 @@
+# Exclude GitHub Actions workflows and configuration
+.github/
+
+# Exclude the entire test directory to reduce package size
+test/
+
+# Exclude scripts
+scripts/
+
+# Exclude Flutter/Dart internal and IDE files
+build/
+.metadata
+.packages
+.dart_tool/
+.idea/
+.vscode/
+pubspec.lock
