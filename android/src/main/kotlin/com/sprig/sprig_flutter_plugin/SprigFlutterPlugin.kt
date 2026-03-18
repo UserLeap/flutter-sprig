@@ -275,7 +275,7 @@ class SprigFlutterPlugin :
             val flutterEventName = convertToFlutterEventName(event.name.name)
             
             // Prepare the event data to send to Flutter
-            val eventData = mutableMapOf<String, Any?>(
+            var eventData = mutableMapOf<String, Any?>(
                 "eventType" to flutterEventName
             )
             
@@ -284,7 +284,13 @@ class SprigFlutterPlugin :
                 val dataMap = jsonToMap(jsonData)
                 eventData.putAll(dataMap)
             }
-            
+
+            // Normalize the difference between how Android and iOS package the message for logging events
+            if (eventData["eventType"] == "loggingEvent") {
+                eventData["message"] = eventData["log.message"]
+                eventData.remove("log.message")
+            }
+
             Log.d(TAG, "Prepared event data for Flutter: $eventData")
             
             // Send the event through EventChannel
