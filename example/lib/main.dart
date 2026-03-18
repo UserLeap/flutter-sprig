@@ -152,7 +152,7 @@ class _MyAppState extends State<MyApp> {
           debugPrint("Replay events upload completed");
         case SprigLifecycleEvent.loggingEvent:
           if (eventData["message"] case var message?) {
-            debugPrint("Logging event: $message");
+            debugPrint("Logging Event: $message");
           }
         case SprigLifecycleEvent.none:
           debugPrint("Unknown event type ${eventTypeString}");

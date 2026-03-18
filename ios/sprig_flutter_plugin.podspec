@@ -4,12 +4,12 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'sprig_flutter_plugin'
-  s.version          = '0.3.3'
+  s.version          = '0.4.0'
   s.summary          = 'Sprig Flutter plugin.'
   s.description      = <<-DESC
 Sprig Flutter plugin.
                        DESC
-  s.homepage         = 'http://www.sprig.com'
+  s.homepage         = 'http://sprig.com'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Sprig' => 'sdk@sprig.com' }
   s.source           = { :path => '.' }
@@ -17,7 +17,7 @@ Sprig Flutter plugin.
   s.dependency 'Flutter'
   s.platform = :ios, '15.0'
   #s.vendored_frameworks = 'UserLeapKit'
-  s.dependency 'UserLeapKit', '4.26.2'
+  s.dependency 'UserLeapKit', '4.27.3'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
