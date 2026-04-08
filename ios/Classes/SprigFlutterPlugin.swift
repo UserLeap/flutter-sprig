@@ -115,14 +115,16 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
                 return
             }
             guard let viewController = getRootViewController() else {
-                result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "Failed to get root view controller for presentSurvey", details: nil))
+                Sprig.shared.dismissActiveSurvey()
+                print("Sprig Plugin: Failed to get root view controller for presentSurvey")
                 return
             }
             Sprig.shared.presentSurvey(withId: surveyId, from: viewController)
             result(nil)
         case "present":
             guard let viewController = getRootViewController() else {
-                result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "Failed to get root view controller for present", details: nil))
+                Sprig.shared.dismissActiveSurvey()
+                print("Sprig Plugin: Failed to get root view controller for present")
                 return
             }
             Sprig.shared.presentSurvey(from: viewController)
@@ -134,7 +136,8 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
                 return
             }
             guard let rootViewController = getRootViewController() else {
-                result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "Failed to get root view controller for trackAndPresent", details: nil))
+                Sprig.shared.dismissActiveSurvey()
+                print("Sprig Plugin: Failed to get root view controller for trackAndPresent")
                 return
             }
             let payload = EventPayload(eventName: eventName)
@@ -147,7 +150,8 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
                 return
             }
             guard let rootViewController = getRootViewController() else {
-                result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "Failed to get root view controller for trackIdentifyAndPresent", details: nil))
+                Sprig.shared.dismissActiveSurvey()
+                print("Sprig Plugin: Failed to get root view controller for trackIdentifyAndPresent")
                 return
             }
             let userId = argDict["userId"] as? String
@@ -163,8 +167,12 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
                 return
             }
             let payload = EventPayload(eventName: eventName)
-            payload.handler = { surveyState in
-                result(surveyState.rawValue)
+            payload.resultHandler = { surveyResult in
+                let resultDict = [
+                    "surveyState": surveyResult.surveyState.rawValue,
+                    "surveyId": surveyResult.surveyId
+                ]
+                result(resultDict)
             }
             Sprig.shared.track(payload: payload)
         case "trackWithProperties":
@@ -177,8 +185,12 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
             let userId = argDict["userId"] as? String
             let partnerAnonymousId = argDict["partnerAnonymousId"] as? String
             let payload = EventPayload(eventName: eventName, userId: userId, partnerAnonymousId: partnerAnonymousId, properties: properties)
-            payload.handler = { surveyState in
-                result(surveyState.rawValue)
+            payload.resultHandler = { surveyResult in
+                let resultDict = [
+                    "surveyState": surveyResult.surveyState.rawValue,
+                    "surveyId": surveyResult.surveyId
+                ]
+                result(resultDict)
             }
             Sprig.shared.track(payload: payload)
             
@@ -192,8 +204,12 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
                 return
             }
             let payload = EventPayload(eventName: eventName, userId: userId, partnerAnonymousId: partnerAnonymousId)
-            payload.handler = { surveyState in
-                result(surveyState.rawValue)
+            payload.resultHandler = { surveyResult in
+                let resultDict = [
+                    "surveyState": surveyResult.surveyState.rawValue,
+                    "surveyId": surveyResult.surveyId
+                ]
+                result(resultDict)
             }
             Sprig.shared.track(payload: payload)
         case "dismissActiveSurvey":
@@ -212,16 +228,24 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
 
     private func registerEventListener(for lifecycleEvent: LifecycleEvent) {
         let eventKey = lifecycleEvent.stringValue
+        let eventTypeKeyOut = "eventType"
+        let eventTypeKeyIn = "type"
+        let dataKey = "data"
         
         guard !registeredEvents.contains(eventKey) else {
+            print("Sprig Plugin: Listener for \(eventKey) already registered, skipping.")
             return
         }
-        
-        Sprig.shared.registerEventListener(for: lifecycleEvent) { [weak self] eventData in
-            let eventTypeString = lifecycleEvent.stringValue
+
+        Sprig.shared.registerEventListener(for: lifecycleEvent) {[weak self] eventData in
+            guard let self, let eventSink else { return} 
+            guard let eventType = eventData[eventTypeKeyIn] as? String else { 
+                print("Sprig Plugin: Could not parse event type from event data: \(eventData)")
+                return 
+            }
             
             var flutterEventData: [String: Any] = [
-                "eventType": eventTypeString
+                eventTypeKeyOut: eventType
             ]
             
             if let eventDict = eventData as? [String: Any] {
@@ -229,11 +253,11 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
                     flutterEventData[key] = value
                 }
             } else if eventData != nil {
-                flutterEventData["data"] = eventData
+                flutterEventData[dataKey] = eventData
             }
             
             DispatchQueue.main.async {
-                self?.eventSink?(flutterEventData)
+                eventSink(flutterEventData)
             }
         }
         
@@ -263,7 +287,8 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
             viewController = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
         }
         
-        guard let viewController = viewController else {            
+        guard let viewController = viewController else {          
+            print("Sprig Plugin: Could not find a root view controller.")
             return nil
         }
         return viewController

@@ -14,6 +14,7 @@ import com.userleap.EventPayload
 import com.userleap.EventListener
 import com.userleap.EventName
 import com.userleap.SurveyState
+import com.userleap.SprigSurveyResult
 
 import android.app.Activity
 import android.util.Log
@@ -72,13 +73,21 @@ class SprigFlutterPlugin :
      * Examples: "sdkReady" -> "SDK_READY", "surveyWillPresent" -> "SURVEY_WILL_PRESENT"
      */
     private fun convertFlutterEventName(camelCase: String): EventName? {
-        return try {
-            val snakeCase = camelCase.replace(Regex("(?<=[a-z])(?=[A-Z])"), "_").uppercase()
-            EventName.valueOf(snakeCase)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
+        val snakeCase = camelCase.replace(Regex("(?<=[a-z])(?=[A-Z])"), "_").uppercase()
+        return normalizedEventNameOf(snakeCase)
     }
+
+    /**
+    * Normalizes the lifecycle event name if needed, from any version of the names that may be used
+    * by the Web SDK or other sources that don't match what the native SDK uses for those names.
+    */
+    private fun normalizedEventNameOf(name: String): EventName? =
+    runCatching {
+        enumValueOf<EventName>(when (name) {
+            "SET_HEIGHT" -> "SURVEY_HEIGHT"
+            else -> name
+        })
+    }.getOrNull()
 
     /**
      * Convert UPPER_SNAKE_CASE to camelCase for Flutter
@@ -390,10 +399,18 @@ class SprigFlutterPlugin :
 
     private fun handleTrack(call: MethodCall, result: Result) {
         call.argument<String>("eventName")?.let {
-            val callback = { surveyState: SurveyState ->
-                result.success(surveyState.ordinal)
+           val resultCallback = { surveyResult: SprigSurveyResult ->
+                mainHandler.post {
+                    result.success(mapOf(
+                        "surveyState" to surveyResult.surveyState.ordinal,
+                        "surveyId" to surveyResult.surveyId
+                    ))
+                }
+                Unit
             }
-            Sprig.track(EventPayload(event = it, callback = callback))
+            Sprig.track(EventPayload(event = it, resultCallback = resultCallback))
+        } ?: mainHandler.post {
+            result.success(mapOf("surveyState" to SurveyState.NO_SURVEY.ordinal, "surveyId" to null))
         }
     }
 

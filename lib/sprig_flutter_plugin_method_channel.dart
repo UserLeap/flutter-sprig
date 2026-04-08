@@ -21,6 +21,17 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
   bool _isListening = false;
 
   @override
+    /// Safely converts an int value to SprigSurveyState enum.
+    SprigSurveyState _surveyStateFromInt(dynamic value) {
+      if (value is int) {
+        try {
+          return SprigSurveyState.fromRawValue(value);
+        } catch (_) {
+          debugPrint('Invalid surveyState int: $value');
+        }
+      }
+      return SprigSurveyState.noSurvey;
+    }
   Future<String?> getPlatformVersion() async {
     final version = await methodChannel.invokeMethod<String>(
       'getPlatformVersion',
@@ -30,16 +41,26 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
 
   @override
   Future<String?> sdkVersion() async {
-    final sdkVersion = await methodChannel.invokeMethod<String>('sdkVersion');
-    return sdkVersion;
+    try {
+      final sdkVersion = await methodChannel.invokeMethod<String>('sdkVersion');
+      return sdkVersion;
+    } catch (e) {
+      debugPrint("Failed to get SDK version: $e");
+      return null;
+    }
   }
 
   @override
   Future<String?> visitorIdentifierString() async {
-    final visitorIdentifierString = await methodChannel.invokeMethod<String>(
-      'visitorIdentifierString',
-    );
-    return visitorIdentifierString;
+    try {
+      final visitorIdentifierString = await methodChannel.invokeMethod<String>(
+        'visitorIdentifierString',
+      );
+      return visitorIdentifierString;
+    } catch (e) {
+      debugPrint("Failed to get visitor identifier string: $e");
+      return null;
+    }
   }
 
   @override
@@ -47,29 +68,45 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
     required String environment,
     Map<String, String>? configuration,
   }) async {
-    await methodChannel.invokeMethod<void>('configure', {
-      'environment': environment,
-      'configuration': configuration,
-    });
+    try {
+      await methodChannel.invokeMethod<void>('configure', {
+        'environment': environment,
+        'configuration': configuration,
+      });
+    } catch (e) {
+      debugPrint("Failed to configure Sprig SDK: $e");
+    }
   }
 
   @override
   Future<void> presentSurvey({required int surveyId}) async {
-    await methodChannel.invokeMethod<void>('presentSurvey', {
-      'surveyId': surveyId,
-    });
+    try {
+      await methodChannel.invokeMethod<void>('presentSurvey', {
+        'surveyId': surveyId,
+      });
+    } catch (e) {
+      debugPrint("Failed to present survey: $e");
+    }
   }
 
   @override
   Future<void> present() async {
-    await methodChannel.invokeMethod<void>('present');
+    try {
+      await methodChannel.invokeMethod<void>('present');
+    } catch (e) {
+      debugPrint("Failed to present survey: $e");
+    }
   }
 
   @override
   Future<void> setPreviewKey({required String previewKey}) async {
-    await methodChannel.invokeMethod<void>('setPreviewKey', {
-      'previewKey': previewKey,
-    });
+    try {
+      await methodChannel.invokeMethod<void>('setPreviewKey', {
+        'previewKey': previewKey,
+      });
+    } catch (e) {
+      debugPrint("Failed to set preview key: $e");
+    }
   }
 
   @override
@@ -136,9 +173,13 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
 
   @override
   Future<void> setEmailAddress({required String emailAddress}) async {
-    await methodChannel.invokeMethod<void>('setEmailAddress', {
-      'emailAddress': emailAddress,
-    });
+    try{
+      await methodChannel.invokeMethod<void>('setEmailAddress', {
+        'emailAddress': emailAddress,
+      });
+    } catch (e) {
+      debugPrint("Failed to set email address: $e");
+    }
   }
 
   @override
@@ -146,10 +187,14 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
     required String key,
     required String value,
   }) async {
-    await methodChannel.invokeMethod<void>('setVisitorAttribute', {
-      'key': key,
-      'value': value,
-    });
+    try{
+      await methodChannel.invokeMethod<void>('setVisitorAttribute', {
+        'key': key,
+        'value': value,
+      });
+    } catch (e) {
+      debugPrint("Failed to set visitor attribute: $e");
+    }
   }
 
   @override
@@ -158,39 +203,59 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
     required String userId,
     String? partnerAnonymousId,
   }) async {
-    await methodChannel.invokeMethod<void>('setVisitorAttributesAndIdentify', {
-      'attributes': attributes,
-      'userId': userId,
-      'partnerAnonymousId': partnerAnonymousId,
-    });
+    try{
+      await methodChannel.invokeMethod<void>('setVisitorAttributesAndIdentify', {
+        'attributes': attributes,
+        'userId': userId,
+        'partnerAnonymousId': partnerAnonymousId,
+      });
+    } catch (e) {
+      debugPrint("Failed to set visitor attributes and identify: $e");
+    }
   }
 
   @override
   Future<void> removeVisitorAttributes({
     required List<String> attributes,
   }) async {
-    await methodChannel.invokeMethod<void>('removeVisitorAttributes', {
-      'attributes': attributes,
-    });
+    try{
+      await methodChannel.invokeMethod<void>('removeVisitorAttributes', {
+        'attributes': attributes,
+      });
+    } catch (e) {
+      debugPrint("Failed to remove visitor attributes: $e");
+    }
   }
 
   @override
   Future<void> setUserIdentifier({required String identifier}) async {
-    await methodChannel.invokeMethod<void>('setUserIdentifier', {
-      'identifier': identifier,
-    });
+    try{
+      await methodChannel.invokeMethod<void>('setUserIdentifier', {
+        'identifier': identifier,
+      });
+    } catch (e) {
+      debugPrint("Failed to set user identifier: $e");
+    }
   }
 
   @override
   Future<void> logout() async {
-    await methodChannel.invokeMethod<void>('logout');
+    try{
+      await methodChannel.invokeMethod<void>('logout');
+    } catch (e) {
+      debugPrint("Failed to logout: $e");
+    }
   }
 
   @override
   Future<void> trackAndPresent({required String eventName}) async {
-    await methodChannel.invokeMethod<void>('trackAndPresent', {
-      'eventName': eventName,
-    });
+    try{
+      await methodChannel.invokeMethod<void>('trackAndPresent', {
+        'eventName': eventName,
+      });
+    } catch (e) {
+      debugPrint("Failed to track and present: $e");
+    }
   }
 
   @override
@@ -199,25 +264,39 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
     String? userId,
     String? partnerAnonymousId,
   }) async {
-    await methodChannel.invokeMethod<void>('trackIdentifyAndPresent', {
-      'eventName': eventName,
-      'userId': userId,
-      'partnerAnonymousId': partnerAnonymousId,
-    });
+    try{
+      await methodChannel.invokeMethod<void>('trackIdentifyAndPresent', {
+        'eventName': eventName,
+        'userId': userId,
+        'partnerAnonymousId': partnerAnonymousId,
+      });
+    } catch (e) {
+      debugPrint("Failed to track, identify, and present: $e");
+    }
   }
 
   @override
   Future<void> track({
     required String eventName,
-    required Function(SprigSurveyState) onCompletion,
+    Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) async {
     try {
-      final int result = await methodChannel.invokeMethod('track', {
+      final Map result = await methodChannel.invokeMethod('track', {
         'eventName': eventName,
       });
-      onCompletion(SprigSurveyState.fromRawValue(result));
-    } on PlatformException catch (e) {
-      debugPrint("Failed to invoke iOS method: '${e.message}'.");
+
+      SprigSurveyState surveyState = _surveyStateFromInt(result["surveyState"]);
+      int? surveyId = result["surveyId"] as int?;
+
+      if (onCompletion != null) {
+        onCompletion(surveyState);
+      }
+      if (onResultCompletion != null) {
+        onResultCompletion(SprigSurveyResult(surveyState: surveyState, surveyId: surveyId));
+      }
+    } catch (e) {
+      debugPrint("Failed to track event: $e");
     }
   }
 
@@ -227,19 +306,28 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
     String? userId,
     String? partnerAnonymousId,
     required Map<String, dynamic> properties,
-    required Function(SprigSurveyState) onCompletion,
+    Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) async {
     try {
-      final int result = await methodChannel
+      final Map result = await methodChannel
           .invokeMethod('trackWithProperties', {
             'eventName': eventName,
             'userId': userId,
             'partnerAnonymousId': partnerAnonymousId,
             'properties': properties,
           });
-      onCompletion(SprigSurveyState.fromRawValue(result));
-    } on PlatformException catch (e) {
-      debugPrint("Failed to invoke iOS method: '${e.message}'.");
+      SprigSurveyState surveyState = _surveyStateFromInt(result["surveyState"]);
+      int? surveyId = result["surveyId"] as int?;
+
+      if (onCompletion != null) {
+        onCompletion(surveyState);
+      }
+      if (onResultCompletion != null) {
+        onResultCompletion(SprigSurveyResult(surveyState: surveyState, surveyId: surveyId));
+      }
+    } catch (e) {
+      debugPrint("Failed to track event with properties: $e");
     }
   }
 
@@ -248,32 +336,53 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
     required String eventName,
     required String userId,
     required String partnerAnonymousId,
-    required Function(SprigSurveyState) onCompletion,
+    Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) async {
     try {
-      final int result = await methodChannel.invokeMethod('trackAndIdentify', {
+      final Map result = await methodChannel.invokeMethod('trackAndIdentify', {
         'eventName': eventName,
         'userId': userId,
         'partnerAnonymousId': partnerAnonymousId,
       });
-      onCompletion(SprigSurveyState.fromRawValue(result));
-    } on PlatformException catch (e) {
-      debugPrint("Failed to invoke iOS method: '${e.message}'.");
+      SprigSurveyState surveyState = _surveyStateFromInt(result["surveyState"]);
+      int? surveyId = result["surveyId"] as int?;
+
+      if (onCompletion != null) {
+        onCompletion(surveyState);
+      }
+      if (onResultCompletion != null) {
+        onResultCompletion(SprigSurveyResult(surveyState: surveyState, surveyId: surveyId));
+      }
+    } catch (e) {
+      debugPrint("Failed to track and identify event: $e");
     }
   }
 
   @override
   Future<void> dismissActiveSurvey() async {
-    await methodChannel.invokeMethod<void>('dismissActiveSurvey');
+    try {
+      await methodChannel.invokeMethod<void>('dismissActiveSurvey');
+    } catch (e) {
+      debugPrint("Failed to dismiss active survey: $e");
+    }   
   }
 
   @override
   Future<void> pauseDisplayingSurveys() async {
-    await methodChannel.invokeMethod<void>('pauseDisplayingSurveys');
+    try {
+      await methodChannel.invokeMethod<void>('pauseDisplayingSurveys');
+    } catch (e) {
+      debugPrint("Failed to pause displaying surveys: $e");
+    }
   }
 
   @override
   Future<void> unpauseDisplayingSurveys() async {
-    await methodChannel.invokeMethod<void>('unpauseDisplayingSurveys');
+    try {
+      await methodChannel.invokeMethod<void>('unpauseDisplayingSurveys');
+    } catch (e) {
+      debugPrint("Failed to unpause displaying surveys: $e");
+    }
   }
 }
