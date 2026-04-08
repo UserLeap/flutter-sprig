@@ -116,7 +116,8 @@ abstract class SprigFlutterPluginPlatform extends PlatformInterface {
 
   Future<void> track({
     required String eventName,
-    required Function(SprigSurveyState) onCompletion,
+    @Deprecated('Use onResultCompletion instead') required Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion
   }) {
     throw UnimplementedError('track() has not been implemented.');
   }
@@ -126,7 +127,8 @@ abstract class SprigFlutterPluginPlatform extends PlatformInterface {
     String? userId,
     String? partnerAnonymousId,
     required Map<String, dynamic> properties,
-    required Function(SprigSurveyState) onCompletion,
+    @Deprecated('Use onResultCompletion instead') required Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) {
     throw UnimplementedError('trackWithProperties() has not been implemented.');
   }
@@ -135,7 +137,8 @@ abstract class SprigFlutterPluginPlatform extends PlatformInterface {
     required String eventName,
     required String userId,
     required String partnerAnonymousId,
-    required Function(SprigSurveyState) onCompletion,
+    @Deprecated('Use onResultCompletion instead') required Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) {
     throw UnimplementedError('trackAndIdentify() has not been implemented.');
   }

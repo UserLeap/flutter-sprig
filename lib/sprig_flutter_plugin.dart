@@ -110,11 +110,13 @@ class SprigFlutterPlugin {
 
   Future<void> track({
     required String eventName,
-    required Function(SprigSurveyState) onCompletion,
+    @Deprecated('Use onResultCompletion instead') Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) {
     return SprigFlutterPluginPlatform.instance.track(
       eventName: eventName,
       onCompletion: onCompletion,
+      onResultCompletion: onResultCompletion,
     );
   }
 
@@ -123,7 +125,8 @@ class SprigFlutterPlugin {
     String? userId,
     String? partnerAnonymousId,
     required Map<String, dynamic> properties,
-    required Function(SprigSurveyState) onCompletion,
+    @Deprecated('Use onResultCompletion instead') required Function(SprigSurveyState) onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) {
     return SprigFlutterPluginPlatform.instance.trackWithProperties(
       eventName: eventName,
@@ -131,6 +134,7 @@ class SprigFlutterPlugin {
       partnerAnonymousId: partnerAnonymousId,
       properties: properties,
       onCompletion: onCompletion,
+      onResultCompletion: onResultCompletion,
     );
   }
 
@@ -138,13 +142,15 @@ class SprigFlutterPlugin {
     required String eventName,
     required String userId,
     required String partnerAnonymousId,
-    required Function(SprigSurveyState) onCompletion,
+    @Deprecated('Use onResultCompletion instead') Function(SprigSurveyState)? onCompletion,
+    Function(SprigSurveyResult)? onResultCompletion,
   }) {
     return SprigFlutterPluginPlatform.instance.trackAndIdentify(
       eventName: eventName,
       userId: userId,
       partnerAnonymousId: partnerAnonymousId,
       onCompletion: onCompletion,
+      onResultCompletion: onResultCompletion,
     );
   }
 
