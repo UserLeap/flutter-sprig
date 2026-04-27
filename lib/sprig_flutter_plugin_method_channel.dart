@@ -385,4 +385,15 @@ class MethodChannelSprigFlutterPlugin extends SprigFlutterPluginPlatform {
       debugPrint("Failed to unpause displaying surveys: $e");
     }
   }
+
+  @override
+  Future<void> overrideUserInterfaceMode(SprigUserInterfaceMode mode) async {
+    try {
+      await methodChannel.invokeMethod<void>('overrideUserInterfaceMode', {
+        'mode': mode.index,
+      });
+    } catch (e) {
+      debugPrint("Failed to override user interface mode: $e");
+    }
+  }
 }

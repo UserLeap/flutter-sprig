@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'sprig_flutter_plugin'
-  s.version          = '0.5.0'
+  s.version          = '0.6.0'
   s.summary          = 'Sprig Flutter plugin.'
   s.description      = <<-DESC
 Sprig Flutter plugin.
@@ -16,8 +16,13 @@ Sprig Flutter plugin.
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.platform = :ios, '15.0'
-  #s.vendored_frameworks = 'UserLeapKit'
-  s.dependency 'UserLeapKit', '4.29.0'
+  
+  s.dependency 'UserLeapKit', '4.30.0'
+  # Comment out the above line and uncomment the lines below to use a local version of UserLeapKit.xcframework instead of the Cocoapod.
+  # Be sure to place a copy of the UserLeapKit.xcframework in the iOS directory of the plugin.
+  #s.vendored_frameworks = 'UserLeapKit.xcframework'
+  #s.preserve_paths = 'UserLeapKit.xcframework'
+  #s.xcconfig = { 'OTHER_LDFLAGS' => '-framework UserLeapKit' }
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

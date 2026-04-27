@@ -162,4 +162,10 @@ abstract class SprigFlutterPluginPlatform extends PlatformInterface {
       'unpauseDisplayingSurveys() has not been implemented.',
     );
   }
+
+  Future<void> overrideUserInterfaceMode(SprigUserInterfaceMode mode) async {
+    throw UnimplementedError(
+      'overrideUserInterfaceMode() has not been implemented.',
+    );
+  }
 }

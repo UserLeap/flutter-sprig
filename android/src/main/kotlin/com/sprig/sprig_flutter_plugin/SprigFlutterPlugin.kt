@@ -15,6 +15,7 @@ import com.userleap.EventListener
 import com.userleap.EventName
 import com.userleap.SurveyState
 import com.userleap.SprigSurveyResult
+import com.userleap.SprigUserInterfaceMode
 
 import android.app.Activity
 import android.util.Log
@@ -65,7 +66,8 @@ class SprigFlutterPlugin :
         "trackAndIdentify" to ::handleTrackAndIdentify,
         "dismissActiveSurvey" to ::handleDismissActiveSurvey,
         "pauseDisplayingSurveys" to ::handlePauseDisplayingSurveys,
-        "unpauseDisplayingSurveys" to ::handleUnpauseDisplayingSurveys
+        "unpauseDisplayingSurveys" to ::handleUnpauseDisplayingSurveys,
+        "overrideUserInterfaceMode" to ::handleOverrideUserInterfaceMode
     )
 
     /**
@@ -456,6 +458,21 @@ class SprigFlutterPlugin :
     private fun handleUnpauseDisplayingSurveys(call: MethodCall, result: Result) {
         Sprig.unpauseDisplayingSurveys()
         result.success(0)
+    }
+
+    private fun handleOverrideUserInterfaceMode(call: MethodCall, result: Result) {
+        val modeIndex = call.argument<Int>("mode")
+        if (modeIndex == null) {
+            result.error("MISSING_ARGUMENT", "Missing mode parameter for overrideUserInterfaceMode", null)
+            return
+        }
+        val mode = SprigUserInterfaceMode.values().firstOrNull { it.value == modeIndex }
+        if (mode == null) {
+            result.error("INVALID_ARGUMENT", "Invalid mode value: $modeIndex", null)
+            return
+        }
+        Sprig.overrideUserInterfaceMode(mode)
+        result.success(null)
     }
 
     override fun onDetachedFromEngine(_binding: FlutterPlugin.FlutterPluginBinding) {
