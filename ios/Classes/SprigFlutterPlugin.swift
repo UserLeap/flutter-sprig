@@ -221,6 +221,15 @@ public class SprigFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         case "unpauseDisplayingSurveys":
             Sprig.shared.unpauseDisplayingSurveys()
             result(nil)
+        case "overrideUserInterfaceMode":
+            guard let argDict,
+                  let modeIndex = argDict["mode"] as? Int,
+                  let mode = SprigUserInterfaceMode(rawValue: modeIndex) else {
+                result(FlutterError(code: "MISSING_ARGUMENT", message: "Missing mode parameter for overrideUserInterfaceMode", details: nil))
+                return
+            }
+            Sprig.shared.overrideUserInterfaceMode(mode: mode)
+            result(nil)
         default:
             result(FlutterMethodNotImplemented)
         }

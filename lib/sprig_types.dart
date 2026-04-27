@@ -35,6 +35,12 @@ class SprigSurveyResult {
   });
 }
 
+enum SprigUserInterfaceMode {
+    unspecified,
+    light,
+    dark;
+}
+
 enum SprigSurveyState {
     /// There is no survey to be displayed.
     noSurvey,

@@ -169,4 +169,8 @@ class SprigFlutterPlugin {
   Future<void> unpauseDisplayingSurveys() {
     return SprigFlutterPluginPlatform.instance.unpauseDisplayingSurveys();
   }
+
+  Future<void> overrideUserInterfaceMode(SprigUserInterfaceMode mode) {
+    return SprigFlutterPluginPlatform.instance.overrideUserInterfaceMode(mode);
+  }
 }
