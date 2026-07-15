@@ -158,6 +158,8 @@ class _MyAppState extends State<MyApp> {
           debugPrint("Lifecycle Event: Survey completed with data: $eventData");  
         case SprigLifecycleEvent.surveyStateReturned:
           debugPrint("Lifecycle Event: Survey state returned with data: $eventData");
+        case SprigLifecycleEvent.questionAnswered:
+          debugPrint("Lifecycle Event: Question answered with data: $eventData");
         case SprigLifecycleEvent.none:
           debugPrint("Unknown event type ${eventTypeString}");
       }

@@ -4,6 +4,10 @@
 <!-- fix: A bug fix -->
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 
+### 0.8.0
+- chore: Update iOS SDK to v4.33.0.
+- chore: Update Android SDK to v2.27.0.
+
 ### 0.7.1
 - chore: Update iOS SDK to v4.32.3.
 - chore: Update Android SDK to v2.26.2.

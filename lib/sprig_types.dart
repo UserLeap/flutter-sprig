@@ -19,6 +19,7 @@ enum SprigLifecycleEvent {
   loggingEvent("loggingEvent"),
   surveyCompleted("surveyCompleted"),
   surveyStateReturned("surveyStateReturned"),
+  questionAnswered("questionAnswered"),
   none("none");
 
   final String value;

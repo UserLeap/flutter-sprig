@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'sprig_flutter_plugin'
-  s.version          = '0.7.1'
+  s.version          = '0.8.0'
   s.summary          = 'Sprig Flutter plugin.'
   s.description      = <<-DESC
 Sprig Flutter plugin.
@@ -17,7 +17,7 @@ Sprig Flutter plugin.
   s.dependency 'Flutter'
   s.platform = :ios, '15.0'
   
-  s.dependency 'UserLeapKit', '4.32.3'
+  s.dependency 'UserLeapKit', '4.33.0'
   # Comment out the above line and uncomment the lines below to use a local version of UserLeapKit.xcframework instead of the Cocoapod.
   # Be sure to place a copy of the UserLeapKit.xcframework in the iOS directory of the plugin.
   #s.vendored_frameworks = 'UserLeapKit.xcframework'
