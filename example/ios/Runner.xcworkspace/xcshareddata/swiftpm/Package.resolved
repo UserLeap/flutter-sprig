@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "userleap-ios-sdk-releases",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/UserLeap/userleap-ios-sdk-releases.git",
+      "state" : {
+        "revision" : "b70d56b8aad973ba93ce54fdb09a2b337985a6cd",
+        "version" : "4.33.0"
+      }
+    }
+  ],
+  "version" : 2
+}
