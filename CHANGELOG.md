@@ -5,10 +5,16 @@
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 <!-- breaking: A change that requires action from consumers -->
 
+### 0.9.1
+- chore: Update iOS SDK to v4.33.1.
+- chore: Update Android SDK to v2.27.2.
+- Released on 07/30/26
+
 ### 0.9.0
 - breaking: Migrated the iOS SDK integration from CocoaPods to Swift Package Manager.  
 - chore: Validated against Flutter 3.41.
 - chore: Update Android SDK to v2.27.1.
+- Released on 07/22/26
 
 ### 0.8.0
 - chore: Update iOS SDK to v4.33.0.
