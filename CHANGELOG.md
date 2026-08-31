@@ -5,10 +5,17 @@
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 <!-- breaking: A change that requires action from consumers -->
 
+### 0.10.0
+- chore: Update iOS SDK to v4.35.0.
+- chore: Update Android SDK to v2.29.0.
+- add: Refactor of the survey lifecycle events for better accuracy with the addition of the new surveyReturned event, the removal of surveyWillPresent, a change to when the surveyAppeared emits and the addition of the new surveyDidNotAppear event.
+- add: Passing the surveyId of the previous survey when a previousSurveyReady state is returned.
+- Released on 08/31/26
+
 ### 0.9.1
 - chore: Update iOS SDK to v4.33.1.
 - chore: Update Android SDK to v2.27.2.
-- Released on 07/30/26
+- Released on 07/31/26
 
 ### 0.9.0
 - breaking: Migrated the iOS SDK integration from CocoaPods to Swift Package Manager.  
