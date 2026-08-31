@@ -18,7 +18,7 @@ let package = Package(
         // Pinned to the exact release that the CocoaPods dependency previously used.
         .package(
             url: "https://github.com/UserLeap/userleap-ios-sdk-releases.git",
-            exact: "4.33.1"
+            exact: "4.35.0"
         )
     ],
     targets: [
