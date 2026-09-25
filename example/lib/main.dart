@@ -124,10 +124,10 @@ class _MyAppState extends State<MyApp> {
           debugPrint("Visitor ID updated to $_visitorIdentifierString");
         case SprigLifecycleEvent.surveyHeight:
           debugPrint("Survey height updated");
-        case SprigLifecycleEvent.surveyWillPresent:
-          debugPrint("Survey will present");
-        case SprigLifecycleEvent.surveyPresented:
-          debugPrint("Survey presented");
+        case SprigLifecycleEvent.surveyReturned:
+          debugPrint("Survey returned");
+        case SprigLifecycleEvent.surveyDidNotAppear:
+          debugPrint("Survey did not appear");  
         case SprigLifecycleEvent.surveyAppeared:
           debugPrint("Survey appeared");
         case SprigLifecycleEvent.surveyCloseRequested:
@@ -150,6 +150,8 @@ class _MyAppState extends State<MyApp> {
           debugPrint("Replay upload completed");
         case SprigLifecycleEvent.replayEventsUploadCompleted:
           debugPrint("Replay events upload completed");
+        case SprigLifecycleEvent.displayInAppBrowser:
+          debugPrint("Lifecycle Event: Display in-app browser with data: $eventData");
         case SprigLifecycleEvent.loggingEvent:
           if (eventData["message"] case var message?) {
             debugPrint("Logging Event: $message");

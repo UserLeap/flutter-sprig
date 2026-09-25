@@ -3,8 +3,7 @@ enum SprigLifecycleEvent {
   sdkReady("sdkReady"),
   visitorIdUpdated("visitorIdUpdated"),
   surveyHeight("setHeight"),
-  surveyWillPresent("surveyWillPresent"),
-  surveyPresented("surveyPresented"),
+  surveyReturned("surveyReturned"),
   surveyAppeared("surveyAppeared"),
   surveyCloseRequested("surveyCloseRequested"),
   surveyWillClose("surveyWillClose"),
@@ -20,6 +19,8 @@ enum SprigLifecycleEvent {
   surveyCompleted("surveyCompleted"),
   surveyStateReturned("surveyStateReturned"),
   questionAnswered("questionAnswered"),
+  surveyDidNotAppear("surveyDidNotAppear"),
+  displayInAppBrowser("displayInAppBrowser"),
   none("none");
 
   final String value;
