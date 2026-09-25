@@ -5,6 +5,12 @@
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 <!-- breaking: A change that requires action from consumers -->
 
+### 0.11.0
+- chore: Update iOS SDK to v4.36.1.
+- chore: Update Android SDK to v2.30.1.
+- add: Added the ability to launch an in-app web browser for URL Prompt question types.
+- add: Added the new displayInAppBrowser lifecycle event type.
+
 ### 0.10.0
 - chore: Update iOS SDK to v4.35.0.
 - chore: Update Android SDK to v2.29.0.
