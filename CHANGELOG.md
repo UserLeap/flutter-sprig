@@ -5,6 +5,12 @@
 <!-- chore: Changes to the build process or auxiliary tools and libraries -->
 <!-- breaking: A change that requires action from consumers -->
 
+### 0.11.1
+- chore: Update iOS SDK to v4.36.5.
+- chore: Update Android SDK to v2.30.3.
+- fix: [impact: behavior] [iOS] In-Product Surveys getting stuck while displayed due to conflicting calls from the host app or WKWebView being deallocated.
+- fix: [impact: behavior] [Android] The survey no longer flickers while respondents type in a phone number field.
+
 ### 0.11.0
 - chore: Update iOS SDK to v4.36.1.
 - chore: Update Android SDK to v2.30.1.
